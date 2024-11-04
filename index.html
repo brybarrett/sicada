@@ -59,31 +59,64 @@
 <body>
     <h1>SICADA</h1>
     <h3>Prediksi Cuaca Adaro</h3>
-
-    <div class="image-container">
-        <h2>Weather Forecast - CTNT</h2>
-        <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_CTNT.png" alt="Image 1">
+    <!-- Tabs -->
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'WeatherForecast')">Weather Forecast</button>
+        <button class="tablinks" onclick="openTab(event, 'CurrentWeather')">Current Weather</button>
     </div>
 
-    <div class="image-container">
-        <h2>Weather Forecast - SOUTH</h2>
-        <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_SOUTH.png" alt="Image 2">
+    <!-- Tab Content -->
+    <div id="WeatherForecast" class="tab-content active">
+        <div class="image-container">
+            <h2>Weather Forecast - CTNT</h2>
+            <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_CTNT.png" alt="Image 1">
+        </div>
+        <div class="image-container">
+            <h2>Weather Forecast - SOUTH</h2>
+            <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_SOUTH.png" alt="Image 2">
+        </div>
+        <div class="image-container">
+            <h2>Weather Forecast - WARA</h2>
+            <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_WARA.png" alt="Image 3">
+        </div>
+        <div class="image-container">
+            <h2>Weather Station Location</h2>
+            <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/map_weather_station.png" alt="Image 4">
+        </div>
+        <div class="caption-container">
+            Data source description: <a href="https://www.wunderground.com/about/data" target="_blank">Wunderground Data Source</a><p>
+            CTNT = IBALAN17, ITABAL8, ITABAL9<p>
+            SOUTH = ITABAL1, IBALAN16, ITABAL11<p>
+            WARA = 'ITABAL5
+        </div>
     </div>
 
-    <div class="image-container">
-        <h2>Weather Forecast - WARA</h2>
-        <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/heatmap_WARA.png" alt="Image 3">
-    </div>
+    <div id="CurrentWeather" class="tab-content">
+        <div class="image-container">
+            <h2>Rain Radar Map</h2>
+            <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/img/map_radar.png" alt="Image 5">
+        </div>    </div>
 
-    <div class="image-container">
-        <h2>Weather Station Location</h2>
-        <img src="https://raw.githubusercontent.com/absgeoviz/dummy_data/main/map_weather_station.png" alt="Image 4">
-    </div>
-    <div class="caption-container">
-    Data source description: <a href="https://www.wunderground.com/about/data" target="_blank">Wunderground Data Source</a><p>
-    CTNT = IBALAN17,ITABAL8,ITABAL9<p>
-    SOUTH = ITABAL1,IBALAN16,ITABAL11<p>
-    WARA = 'ITABAL5
-    </div>
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            var tabContent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+                tabContent[i].classList.remove("active");
+            }
+
+            // Remove active class from all tab links
+            var tabLinks = document.getElementsByClassName("tablinks");
+            for (var i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
+            }
+
+            // Show the current tab and add "active" class to the clicked tab link
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
 </body>
 </html>
