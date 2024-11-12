@@ -53,7 +53,34 @@
             display: flex;
 			flex-direction: column;
             align-items: center;			
-        }        
+        }
+	table {
+            width: 50%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        td {
+            color: #333;
+            font-size: 16px;
+        }	    
     </style>
 </head>
 <body>
@@ -101,6 +128,32 @@
 	Current : rainfall rate, potensi intensitas hujan jika hujan dengan intensitas terukur saat ini berlangsung secara konstan selama 1 jam (mm/hour)<p>
         Daily   : cummulative/total rain, intensitas hujan dari mulai 00:01 s/d waktu update (mm/day)
 	</div>
+	<table>
+	        <thead>
+	            <tr>
+	                <th>Kategori Intensitas Hujan</th>
+	                <th>Intensitas (mm/hour)</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>Hujan ringan (light rain)</td>
+	                <td>1 - 5</td>
+	            </tr>
+	            <tr>
+	                <td>Hujan sedang (moderate rain)</td>
+	                <td>5 - 10</td>
+	            </tr>
+	            <tr>
+	                <td>Hujan lebat (heavy rain)</td>
+	                <td>10 - 20</td>
+	            </tr>
+	            <tr>
+	                <td>Hujan sangat lebat (very heavy rain)</td>
+	                <td>&gt; 20</td>
+	            </tr>
+	        </tbody>
+	    </table>	
     <script>
         function openTab(evt, tabName) {
             // Hide all tab content
