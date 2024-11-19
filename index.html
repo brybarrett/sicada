@@ -79,7 +79,36 @@
         td {
             color: #333;
             font-size: 16px;
-        }	    
+        }
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 2px;
+        }
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.7;
+            shape-rendering: crispEdges;
+        }
+        .grid path {
+            stroke-width: 0;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 130px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        .chart {
+            margin-bottom: 50px;
+        }		
+	    
     </style>
 </head>
 <body>
@@ -87,11 +116,37 @@
     <h3>Prediksi Cuaca Adaro</h3>
     <!-- Tabs -->
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'WeatherForecast')">Weather Forecast</button>
+        <button class="tablinks" onclick="openTab(event, 'HistoryWeather')">History Weather</button>
         <button class="tablinks active" onclick="openTab(event, 'CurrentWeather')">Current Weather</button>
+	<button class="tablinks" onclick="openTab(event, 'WeatherForecast')">Weather Forecast</button>
     </div>
 
     <!-- Tab Content -->
+    <div id="HistoryWeather" class="tab-content">
+		<h2>ROM-20</h2>
+		<div id="chart1" class="chart"></div>
+		<h2>ROM-19</h2>
+		<div id="chart2" class="chart"></div>
+		<h2>ROM-13</h2>
+		<div id="chart3" class="chart"></div>
+		<h2>LW-BUMA</h2>
+		<div id="chart4" class="chart"></div>
+		<h2>ROM-09</h2>
+		<div id="chart5" class="chart"></div>
+		<h2>ROM-06</h2>
+		<div id="chart6" class="chart"></div>
+		<h2>ROM-03 WARA</h2>
+		<div id="chart7" class="chart"></div>
+		<h2>SP-3B WARA</h2>
+		<div id="chart8" class="chart"></div>
+		<h2>DISPATCH KM67</h2>
+		<div id="chart9" class="chart"></div>
+		<h2>QC Kelanis</h2>
+		<div id="chart10" class="chart"></div>
+		<h2>PORT Kelanis</h2>
+		<div id="chart11" class="chart"></div>
+		<div class="tooltip" style="opacity:0;"></div>    
+	</div>	
     <div id="WeatherForecast" class="tab-content">
         <div class="image-container">
             <h2>Weather Forecast - CTNT</h2>
@@ -174,6 +229,103 @@
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
+        // Function to create a line plot
+        function createLinePlot(csvFile, chartId) {
+            const margin = {top: 20, right: 30, bottom: 30, left: 50},
+                  width = 800 - margin.left - margin.right,
+                  height = 200 - margin.top - margin.bottom;
+
+            const svg = d3.select(chartId)
+                          .append("svg")
+                          .attr("width", width + margin.left + margin.right)
+                          .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+
+            d3.csv(csvFile).then(data => {
+                data.forEach(d => {
+                    d.datetime = parseTime(d.datetime);
+                    d.precipRate = +d.precipRate;
+                });
+
+                const x = d3.scaleTime().range([0, width]);
+                const y = d3.scaleLinear().range([height, 0]);
+
+                const valueline = d3.line()
+                                    .x(d => x(d.datetime))
+                                    .y(d => y(d.precipRate));
+
+                x.domain(d3.extent(data, d => d.datetime));
+                y.domain([0, d3.max(data, d => d.precipRate)]);
+
+                svg.append("path")
+                   .data([data])
+                   .attr("class", "line")
+                   .attr("d", valueline);
+
+                svg.append("g")
+                   .attr("transform", `translate(0,${height})`)
+                   .call(d3.axisBottom(x));
+
+                svg.append("g")
+                   .call(d3.axisLeft(y));
+
+                svg.append("g")
+                   .attr("class", "grid")
+                   .attr("transform", `translate(0,${height})`)
+                   .call(d3.axisBottom(x)
+                       .tickSize(-height)
+                       .tickFormat(""));
+
+                svg.append("g")
+                   .attr("class", "grid")
+                   .call(d3.axisLeft(y)
+                       .tickSize(-width)
+                       .tickFormat(""));
+
+                const tooltip = d3.select(".tooltip");
+
+                svg.selectAll("rect")
+                   .data(data)
+                   .enter().append("rect")
+                   .attr("x", d => x(d.datetime) - 5)
+                   .attr("y", d => y(d.precipRate) - 5)
+                   .attr("width", 10)
+                   .attr("height", 10)
+                   .attr("opacity", 0)
+                   .on("mouseover", (event, d) => {
+                       tooltip.transition()
+                              .duration(200)
+                              .style("opacity", .9);
+                       tooltip.html(`Time: ${d3.timeFormat("%d-%b-%y %H:%M")(d.datetime)}<br>Rate: ${d.precipRate}`)
+                              .style("left", (event.pageX + 5) + "px")
+                              .style("top", (event.pageY - 28) + "px");
+                   })
+                   .on("mouseout", () => {
+                       tooltip.transition()
+                              .duration(500)
+                              .style("opacity", 0);
+                   });
+            }).catch(error => {
+                console.error('Error loading the CSV file:', error);
+            });
+        }
+
+        // Create three line plots
+        createLinePlot("ITABAL8.csv", "#chart1");
+        createLinePlot("ITABAL9.csv", "#chart2");
+        createLinePlot("IBALAN17.csv", "#chart3");		
+        createLinePlot("ITABAL1.csv", "#chart4");		
+        createLinePlot("ITABAL11.csv", "#chart5");		
+        createLinePlot("IBALAN16.csv", "#chart6");		
+        createLinePlot("ITABAL5.csv", "#chart7");		
+        createLinePlot("ITABAL12.csv", "#chart8");		
+        createLinePlot("ITABAL10.csv", "#chart9");		
+        createLinePlot("ISOUTH1402.csv", "#chart10");		
+        createLinePlot("ISOUTH1403.csv", "#chart11");		
+	    
     </script>
 </body>
 </html>
