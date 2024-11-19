@@ -237,12 +237,12 @@
          // Function to create a bar chart
         function createBarChart(csvFile, chartId) {
             const margin = {top: 20, right: 30, bottom: 30, left: 50},
-                  width = document.body.clientWidth - margin.left - margin.right,
+                  width = 800 - margin.left - margin.right,
                   height = 400 - margin.top - margin.bottom;
 
             const svg = d3.select(chartId)
                           .append("svg")
-                          .attr("width", "100%")
+                          .attr("width", width + margin.left + margin.right)
                           .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                           .attr("transform", `translate(${margin.left},${margin.top})`);
