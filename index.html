@@ -283,7 +283,8 @@
                    .attr("class", "grid")
                    .attr("transform", `translate(0,${height})`)
                    .call(d3.axisBottom(x)
-                       .tickSize(-height)
+                       .ticks(d3.timeHour.every(6))
+		       .tickSize(-height)
                        .tickFormat(""));
 
                 svg.append("g")
