@@ -243,7 +243,6 @@
             const svg = d3.select(chartId)
                           .append("svg")
                           .attr("width", width + margin.left + margin.right)
-		    	  //.attr("width", "100%")
                           .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                           .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -273,9 +272,7 @@
 
                 svg.append("g")
                    .attr("transform", `translate(0,${height})`)
-                   .call(d3.axisBottom(x))
-			.ticks(d3.timeDay.every(1))
-                        .tickFormat(d3.timeFormat("%b %d")));
+                   .call(d3.axisBottom(x));
 
                 svg.append("g")
                    .call(d3.axisLeft(y));
@@ -284,7 +281,6 @@
                    .attr("class", "grid")
                    .attr("transform", `translate(0,${height})`)
                    .call(d3.axisBottom(x)
-		       .ticks(d3.timeHour.every(12))
                        .tickSize(-height)
                        .tickFormat(""));
 
