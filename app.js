@@ -5,9 +5,32 @@ var map = L.map('map').setView([-2.2, 115.5], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+function getTimestampUTCMinus10Rounded() {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - 10); // Mengurangi 10 menit dari waktu saat ini
+
+    // Membulatkan menit ke bawah ke kelipatan 5 terdekat
+    const minutes = Math.floor(now.getUTCMinutes() / 5) * 5;
+
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(now.getUTCDate()).padStart(2, '0');
+    const hours = String(now.getUTCHours()).padStart(2, '0');
+    const roundedMinutes = String(minutes).padStart(2, '0');
+
+    return `${year}${month}${day}${hours}${roundedMinutes}`;
+}
+
+// Contoh penggunaan
+const timestamp = getTimestampUTCMinus10Rounded();
+console.log(timestamp); // Output: yyyymmddhhmm, misalnya: 202503191430
 
 // Menambahkan layer radar
-var tms_example = L.tileLayer('https://inasiam.bmkg.go.id/api23/mpl_req/radar/radar/0/202503190225/202503190225/{z}/{x}/{y}.png?overlays=contourf', {
+var radar_url = 'https://inasiam.bmkg.go.id/api23/mpl_req/radar/radar/0/'+timestamp+'/'+timestamp+'/{z}/{x}/{y}.png?overlays=contourf'
+
+// Menambahkan layer radar
+
+var tms_example = L.tileLayer(radar_url, {
     tms: true, opacity :0.5
 }).addTo(map);
 // Menambahkan GeoJSON dengan CircleMarker berwarna magenta
