@@ -37,7 +37,7 @@ var tms_example = L.tileLayer(radar_url, {
 
 // Fungsi untuk menambahkan label dari GeoJson
 function addGeoJsonLabel() {
-    fetch('./data/station.geojson')
+    fetch('https://raw.githubusercontent.com/absgeoviz/dummy_data/main/station.geojson')
         .then(response => response.json())
         .then(data => {
             if (map.geoJsonLayer) {
