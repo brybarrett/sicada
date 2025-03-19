@@ -14,7 +14,7 @@ var tms_example = L.tileLayer('https://inasiam.bmkg.go.id/api23/mpl_req/radar/ra
 
 // Fungsi untuk menambahkan label dari GeoJson
 function addGeoJsonLabel() {
-    fetch('station.geojson')
+    fetch('./data/station.geojson')
         .then(response => response.json())
         .then(data => {
             if (map.geoJsonLayer) {
@@ -40,7 +40,7 @@ function addGeoJsonLabel() {
 
 // Fungsi untuk menambahkan label dari GeoJson
 function addGeoJsonLayer() {
-    fetch('station.geojson')
+    fetch('./data/station.geojson')
         .then(response => response.json())
         .then(data => {
             map.geoJsonLayer = L.geoJson(data, {
