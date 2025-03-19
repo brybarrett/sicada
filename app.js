@@ -7,7 +7,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 function getTimestampUTCMinus10Rounded() {
     const now = new Date();
-    now.setMinutes(now.getMinutes() - 10); // Mengurangi 10 menit dari waktu saat ini
+    now.setMinutes(now.getMinutes() - 12); // Mengurangi 10 menit dari waktu saat ini
 
     // Membulatkan menit ke bawah ke kelipatan 5 terdekat
     const minutes = Math.floor(now.getUTCMinutes() / 5) * 5;
