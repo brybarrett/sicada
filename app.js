@@ -91,4 +91,4 @@ addGeoJsonLayer();
 
 // Mengatur interval untuk memuat ulang layer GeoJSON setiap 10 menit
 setInterval(addGeoJsonLabel, 10 * 60 * 1000);
-setInterval(addGeoJsonLayer, 5 * 60 * 1000);
+//setInterval(addGeoJsonLayer, 5 * 60 * 1000);
